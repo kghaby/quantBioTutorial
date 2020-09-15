@@ -1,0 +1,35 @@
+---
+title: "teeth"
+author: "kyleghaby"
+date: "2020-09-15"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+Let's look at the ToothGrowth dataset.
+
+First let's read the data in.
+```{r import-teeth}
+teeth <- read.csv("data/teeth.csv", row.names = 1)
+```
+
+## Boxplots
+Let's make some boxplots.
+```{r box-plots}
+boxplot(len ~ dose, data=teeth)
+boxplot(len ~ supp, data=teeth)
+boxplot(len ~ dose+supp, data=teeth)
+```
+
+## Permutations
+Let's randomly permutate the data and compare to the actual data to infer some significance.
+```{r permutation}
+mean(teeth$len[teeth$supp=="OJ"]) - mean(teeth$len[teeth$supp=="VC"])
+set.seed(123) #set starting point for rng. setting seed for reproducbility
+perm <- sample(teeth$supp)
+mean(teeth$len[perm=="OJ"]) - mean(teeth$len[perm=="VC"])
+```
+
+
